@@ -1,17 +1,8 @@
-const React = require('react');
-const ReactDOM = require('react-dom');
+import React from 'react'
+import ReactDOM from 'react-dom'
+import PropTypes from 'prop-types'
+import App from './components/App.js'
 require('./index.css')
 
-// state
-// lifecycle events
-// UI
-
-class App extends React.Component {
-    render() {
-        return (
-            <div>Hello World!</div>
-        );
-    }
-}
 
 ReactDOM.render(<App />, document.getElementById('app'))
