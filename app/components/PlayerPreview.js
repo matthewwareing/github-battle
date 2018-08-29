@@ -1,18 +1,18 @@
 import React from 'react'
-import { PropTypes } from 'prop-types'
+import PropTypes from 'prop-types'
 
-export function PlayerPreview (props) {
+export function PlayerPreview ({ username, avatar, children }) {
   return (
     <div>
       <div className="column">
         <img 
-        src={props.avatar}
-        alt={'Avatar for ' + props.username}
+        src={avatar}
+        alt={'Avatar for ' + username}
         className='avatar'
         />
-        <h2 className="username">@{props.username}</h2>
+        <h2 className="username">@{username}</h2>
       </div>
-      {props.children}
+      {children}
     </div>
   )
 }
