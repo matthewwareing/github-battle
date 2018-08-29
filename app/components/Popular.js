@@ -1,6 +1,7 @@
 var React = require('react');
 var PropTypes = require('prop-types');
 var api = require("../utils/api");
+import Loading from './Loading'
 
 function RepoGrid (props) {
     return (
@@ -32,10 +33,10 @@ RepoGrid.propTypes = {
 }
 
 function SelectLanguage (props) {
-    var languages = ['All', 'JavaScript', 'Ruby', 'Java', 'CSS', 'Python'];
+    const languages = ['All', 'JavaScript', 'Ruby', 'Java', 'CSS', 'Python'];
     return (
         <ul className='languages'>
-            {languages.map(function (lang) {
+            {languages.map(lang => {
                 return (
                     <li
                         style={lang === props.selectedLanguage ? { color: '#d0021b' } : null}
@@ -54,7 +55,7 @@ SelectLanguage.propTypes = {
     onSelect: PropTypes.func.isRequired
 }
 
-class Popular extends React.Component {
+export default class Popular extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -70,20 +71,9 @@ class Popular extends React.Component {
     }
     
     updateLanguage(lang) {
-        this.setState(function () {
-            return {
-                selectedLanguage: lang,
-                repos: null,
-            }
-        });
+        this.setState(() => ({selectedLanguage: lang, repos: null}));
         api.fetchPopularRepos(lang)
-            .then(function(repos) {
-                this.setState(function() {
-                    return {
-                        repos: repos
-                    }
-                })
-        }.bind(this))
+            .then(repos => this.setState(() => ({ repos })))
     }
     render() {
         return (
@@ -93,12 +83,10 @@ class Popular extends React.Component {
                     onSelect={this.updateLanguage}
                 />
                 {!this.state.repos
-                  ? <p>LOADING</p>
+                  ? <Loading />
                   : <RepoGrid repos={this.state.repos} />
                 }
             </div>
         )
     }
 }
-
-module.exports = Popular;
