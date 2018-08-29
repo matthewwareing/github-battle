@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import api from "../utils/api";
+import { fetchPopularRepos } from "../utils/api";
 import Loading from './Loading'
 
 function RepoGrid ({ repos }) {
@@ -63,14 +63,14 @@ export default class Popular extends React.Component {
         this.updateLanguage(this.state.selectedLanguage)
     }
     
-    updateLanguage = lang => {
+    updateLanguage = async (lang) => {
         this.setState(() => ({
             selectedLanguage: lang, 
             repos: null 
         }));
-
-        api.fetchPopularRepos(lang)
-             .then(repos => this.setState(() => ({ repos })))
+        
+        const repos = await fetchPopularRepos(lang)
+        this.setState(() => ({ repos }))
     }
     render() {
         const { selectedLanguage, repos } = this.state
